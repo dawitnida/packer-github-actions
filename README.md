@@ -5,16 +5,24 @@ pull requests to review Packer template changes and potentially build on pull me
 Check out the [official Packer documentation][packer-doc] for further reference. 
 
 
-### TODOs
+### DONE
 
 - Documentations
     - [x] Getting started & usage
-    - [ ] Actions details
+    - [x] Actions details
 - Action for 
     - [x] Validate Action
-    - [ ] Inspect Action
-    - [ ] Build Action
-    - [ ] Directory set for all actions
+    - [x] Inspect Action
+    - [x] Build Action
+    - [x] Directory set for all actions
+    
+### TODOs
+- Improvements
+    - [ ] Multiple template validation
+    - [ ] Documentation with more screen shots & configuration instructions
+    - [ ] Licensing
+    - [ ] Blog post
+
 
 ### Getting started and usage
 
@@ -28,9 +36,20 @@ Variables
 - `ACTION_COMMENT` : Enable/Disable PR comment from validate result
 
 ```
-workflow "packer validate docker-image-template" {
-  resolves = "packer-validate-docker-image-template"
-  on = "pull_request"
+workflow "packer build template-y" {
+  resolves = "packer-build-template-y"
+  on = "release"
+}
+
+action "packer-build-template-y" {
+  uses = "dawitnida/packer-github-actions/build@master"
+  needs = "packer-inspect-template-y"
+  secrets = [
+    "GITHUB_TOKEN",
+  ]
+  env = {
+    TEMPLATE_FILE_NAME = "packer-template-y.json"
+  }
 }
 
 action "filter-open-synced-pr" {
@@ -38,48 +57,25 @@ action "filter-open-synced-pr" {
   args = "action 'opened|synchronize'"
 }
 
-# For single template (eg. dockers dir contains *.json template)
-action "packer-validate-docker-image-template" {
-  uses = "dawitnida/packer-github-actions/validate@master"
-  needs = "filter-open-synced-pr"
-  secrets = [
-    "GITHUB_TOKEN",
-  ]
-  env = {
-    TEMPLATE_FILE_NAME = "*.json"
-    PACKER_ACTION_WORKING_DIR = "dockers"
-  }
-}
-
-workflow "packer validate template-x with var-file" {
-  resolves = "packer-validate-template-x"
+workflow "packer inspect & validate template-y" {
+  resolves = "packer-inspect-template-y"
   on = "pull_request"
 }
 
-# For specific template file (eg. packer-template-x.json) with var-file (global-vars.json) arg
-action "packer-validate-template-x" {
-  uses = "dawitnida/packer-github-actions/validate@master"
-  needs = "filter-open-synced-pr"
-  secrets = [
-    "GITHUB_TOKEN",
-  ]
-  args = [
-    "-var-file=global-vars.json",
-  ]
-  env = {
-    TEMPLATE_FILE_NAME = "packer-template-x.json"
-  }
-}
-
-workflow "packer validate template-y without arg" {
-  resolves = "packer-validate-template-y"
-  on = "pull_request"
-}
-
-# For specific template file (eg. packer-template-y.json) without any args
 action "packer-validate-template-y" {
   uses = "dawitnida/packer-github-actions/validate@master"
   needs = "filter-open-synced-pr"
+  secrets = [
+    "GITHUB_TOKEN",
+  ]
+  env = {
+    TEMPLATE_FILE_NAME = "packer-template-y.json"
+  }
+}
+
+action "packer-inspect-template-y" {
+  uses = "dawitnida/packer-github-actions/inspect@master"
+  needs = "packer-validate-template-y"
   secrets = [
     "GITHUB_TOKEN",
   ]
