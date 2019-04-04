@@ -20,6 +20,6 @@ $VALIDATE_OUTPUT
 \`\`\`"
 VALIDATE_PAYLOAD=$(echo '{}' | jq --arg body "$VALIDATE_COMMENT" '.body = $body')
 VALIDATE_COMMENTS_URL=$(cat /github/workflow/event.json | jq -r .pull_request.comments_url)
-curl -s -S -H "Authorization: token $GITHUB_TOKEN" --header "Content-Type: application/json" --data "$VALIDATE_PAYLOAD" "$VALIDATE_COMMENTS_URL" > /dev/null
+/usr/bin/curl -s -S -H "Authorization: token $GITHUB_TOKEN" --header "Content-Type: application/json" --data "$VALIDATE_PAYLOAD" "$VALIDATE_COMMENTS_URL" > /dev/null
 
 exit $VALIDATE_SUCCESS

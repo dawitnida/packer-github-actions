@@ -9,7 +9,8 @@ LABEL "repository" = "https://github.com/dawitnida/packer-github-actions"
 LABEL "homepage" = "https://github.com/dawitnida/packer-github-actions"
 LABEL "maintainer" = "Dawit Nida <dawit@dawitnida.com>"
 
-RUN apk --no-cache add jq
+RUN apk add --no-cache jq
+RUN apk add --no-cache curl
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
