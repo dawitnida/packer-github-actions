@@ -27,6 +27,8 @@ if [ $VALIDATE_SUCCESS -ne 0 ]; then
 \`\`\`
 $VALIDATE_OUTPUT
 \`\`\`
+
+- Template: ${TEMPLATE_FILE_NAME}
 - Workflow: ${GITHUB_WORKFLOW}
 - Action: ${GITHUB_ACTION}
 - Reference: ${GITHUB_REF}"
@@ -37,6 +39,7 @@ else
 $VALIDATE_OUTPUT
 \`\`\`
 
+- Template: ${TEMPLATE_FILE_NAME}
 - Workflow: ${GITHUB_WORKFLOW}
 - Action: ${GITHUB_ACTION}
 - Reference: ${GITHUB_REF}"
