@@ -4,9 +4,18 @@ set -e
 # Set the working directory for the template
 cd "${PACKER_ACTION_WORKING_DIR:-.}"
 
+# Selected template file
+if [[ ! -f "$TEMPLATE_FILE_NAME" ]] && [[ $TEMPLATE_FILE_NAME != *.json ]]; then
+    echo "${TEMPLATE_FILE_NAME} does not exit in the working directory (${PACKER_ACTION_WORKING_DIR})"
+    echo ""
+    echo "Setting the file to default."
+
+    TEMPLATE_FILE_NAME=$*
+fi
+
 set +e
 # Run packer template validator
-VALIDATE_OUTPUT=$(sh -c "packer validate $*" 2>&1)
+VALIDATE_OUTPUT=$(sh -c "packer validate ${TEMPLATE_FILE_NAME}" 2>&1)
 VALIDATE_SUCCESS=$?
 echo "$VALIDATE_OUTPUT"
 set -e
@@ -32,7 +41,7 @@ $VALIDATE_OUTPUT
 fi
 
 # Enable/disable comment on validate action on the PR
-if [ "$ACTION_COMMENT" = "1" ] || [ "$ACTION_COMMENT" = "false" ]; then
+if [[ "$ACTION_COMMENT" == "1" ]] || [[ "$ACTION_COMMENT" == "false" ]]; then
     exit $VALIDATE_SUCCESS
 fi
 
