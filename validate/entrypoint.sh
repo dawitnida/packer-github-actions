@@ -3,7 +3,7 @@ set -e
 
 set +e
 # Run packer template validator
-VALIDATE_OUTPUT=$(sh -c "packer validate -no-color $*" 2>&1)
+VALIDATE_OUTPUT=$(sh -c "packer validate $*" 2>&1)
 VALIDATE_SUCCESS=$?
 echo "$VALIDATE_OUTPUT"
 set -e
