@@ -9,13 +9,11 @@ if [[ ! -f "$TEMPLATE_FILE_NAME" ]] && [[ $TEMPLATE_FILE_NAME != *.json ]]; then
     echo "${TEMPLATE_FILE_NAME} does not exit in the working directory (${PACKER_ACTION_WORKING_DIR})"
     echo ""
     echo "Setting the file to default."
-
-    TEMPLATE_FILE_NAME=$*
 fi
 
 set +e
 # Run packer template validator
-VALIDATE_OUTPUT=$(sh -c "packer validate ${TEMPLATE_FILE_NAME}" 2>&1)
+VALIDATE_OUTPUT=$(sh -c "packer validate $* ${TEMPLATE_FILE_NAME}" 2>&1)
 VALIDATE_SUCCESS=$?
 echo "$VALIDATE_OUTPUT"
 set -e
