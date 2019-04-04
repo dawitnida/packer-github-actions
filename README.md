@@ -18,6 +18,12 @@ Check out the [official Packer documentation][packer-doc] for further reference.
 
 ## Getting started and usage
 
+Variables 
+
+- `PACKER_ACTION_WORKING_DIR` : Working directory
+- `TEMPLATE_FILE_NAME` : Packer template file
+- `ACTION_COMMENT` : Enable/Disable PR comment from validate result
+
 ```
 workflow "Packer" {
   resolves = "packer-validate"
@@ -29,11 +35,45 @@ action "filter-open-synced-pr" {
   args = "action 'opened|synchronize'"
 }
 
+### For single template (eg. Dockers dir contains *.json template)
 action "packer-validate" {
   uses = "dawitnida/packer-github-actions/validate@master"
   needs = "filter-open-synced-pr"
-  secrets = ["GITHUB_TOKEN"]
-  args = "*.json"
+  secrets = [
+    "GITHUB_TOKEN",
+  ]
+  env = {
+    PACKER_ACTION_WORKING_DIR = "Dockers"
+    TEMPLATE_FILE_NAME = "*.json"
+  }
+}
+
+### For specific template file (eg. Dockers dir contains *.json template)
+action "packer-validate" {
+  uses = "dawitnida/packer-github-actions/validate@master"
+  needs = "filter-open-synced-pr"
+  secrets = [
+    "GITHUB_TOKEN",
+  ]
+  env = {
+    TEMPLATE_FILE_NAME = "sample-packer-template.json"
+  }
+}
+
+### For specific template file (eg. sample-packer-template.json) with var-file arg
+action "packer-validate" {
+  uses = "dawitnida/packer-github-actions/validate@master"
+  needs = "filter-open-synced-pr"
+  secrets = [
+    "GITHUB_TOKEN",
+  ]
+  args = [
+     "-syntax-only",
+     "-var-file=global-vars.json"
+  ]
+  env = {
+    TEMPLATE_FILE_NAME = "sample-packer-template.json"
+  }
 }
 ```
 
