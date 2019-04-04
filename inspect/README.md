@@ -16,8 +16,8 @@ Variables
 - `ACTION_COMMENT` : Enable/Disable PR comment from validate result
 
 ```
-workflow "packer validate docker-image-template" {
-  resolves = "packer-validate-docker-image-template"
+workflow "packer inspect & validate template-y" {
+  resolves = "packer-inspect-template-y"
   on = "pull_request"
 }
 
@@ -26,7 +26,6 @@ action "filter-open-synced-pr" {
   args = "action 'opened|synchronize'"
 }
 
-# For specific template file (eg. packer-template-y.json) without any args
 action "packer-validate-template-y" {
   uses = "dawitnida/packer-github-actions/validate@master"
   needs = "filter-open-synced-pr"
@@ -38,12 +37,6 @@ action "packer-validate-template-y" {
   }
 }
 
-workflow "packer inspect template-y" {
-  resolves = "packer-inspect-template-y"
-  on = "pull_request"
-}
-
-# Inspect template file (eg. packer-template-y.json)
 action "packer-inspect-template-y" {
   uses = "dawitnida/packer-github-actions/inspect@master"
   needs = "packer-validate-template-y"
