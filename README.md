@@ -8,7 +8,7 @@ Check out the [official Packer documentation][packer-doc] for further reference.
 ### TODOs
 
 - Documentations
-    - [ ] Getting started & usage
+    - [x] Getting started & usage
     - [ ] Actions details
 - Action for 
     - [x] Validate Action
@@ -16,7 +16,10 @@ Check out the [official Packer documentation][packer-doc] for further reference.
     - [ ] Build Action
     - [ ] Directory set for all actions
 
-## Getting started and usage
+### Getting started and usage
+
+To check this in action, please check [Packer actions demo project][packer-actions-demo] with a collection
+of sample packer template files. 
 
 Variables 
 
@@ -25,8 +28,8 @@ Variables
 - `ACTION_COMMENT` : Enable/Disable PR comment from validate result
 
 ```
-workflow "packer-validate-temp-x" {
-  resolves = "packer-validate-demo-1"
+workflow "packer validate docker-image-template" {
+  resolves = "packer-validate-docker-image-template"
   on = "pull_request"
 }
 
@@ -35,8 +38,8 @@ action "filter-open-synced-pr" {
   args = "action 'opened|synchronize'"
 }
 
-### For single template (eg. Dockers dir contains *.json template)
-action "packer-validate-demo-1" {
+# For single template (eg. dockers dir contains *.json template)
+action "packer-validate-docker-image-template" {
   uses = "dawitnida/packer-github-actions/validate@master"
   needs = "filter-open-synced-pr"
   secrets = [
@@ -44,17 +47,17 @@ action "packer-validate-demo-1" {
   ]
   env = {
     TEMPLATE_FILE_NAME = "*.json"
-    PACKER_ACTION_WORKING_DIR = "Dockers"
+    PACKER_ACTION_WORKING_DIR = "dockers"
   }
 }
 
-workflow "packer-validate-temp-y" {
-  resolves = "packer-validate-demo-2"
+workflow "packer validate template-x with var-file" {
+  resolves = "packer-validate-template-x"
   on = "pull_request"
 }
 
-### For specific template file (eg. sample-packer-template.json) with var-file arg
-action "packer-validate-demo-2" {
+# For specific template file (eg. packer-template-x.json) with var-file (global-vars.json) arg
+action "packer-validate-template-x" {
   uses = "dawitnida/packer-github-actions/validate@master"
   needs = "filter-open-synced-pr"
   secrets = [
@@ -64,32 +67,34 @@ action "packer-validate-demo-2" {
     "-var-file=global-vars.json",
   ]
   env = {
-    TEMPLATE_FILE_NAME = "demo-2.json"
+    TEMPLATE_FILE_NAME = "packer-template-x.json"
   }
 }
 
-workflow "packer-validate-temp-z" {
-  resolves = "packer-validate-demo-3"
+workflow "packer validate template-y without arg" {
+  resolves = "packer-validate-template-y"
   on = "pull_request"
 }
 
-### For specific template file (eg. Dockers dir contains *.json template)
-action "packer-validate-demo-3" {
+# For specific template file (eg. packer-template-y.json) without any args
+action "packer-validate-template-y" {
   uses = "dawitnida/packer-github-actions/validate@master"
   needs = "filter-open-synced-pr"
   secrets = [
     "GITHUB_TOKEN",
   ]
   env = {
-    TEMPLATE_FILE_NAME = "demo-docker-template.json"
+    TEMPLATE_FILE_NAME = "packer-template-y.json"
   }
 }
 ```
+
 **Figure 1.** *Packer validate complete check list diagram*
 ![checks-list-diagram](media/action-results.png)
 
-## Author
+### Author
 [Dawit Nida](https://github.com/dawitnida)
 
-[github-actions]: <https://github.com/features/actions>
-[packer-doc]:     <https://www.packer.io/docs/index.html>
+[packer-actions-demo]:  <https://github.com/dawitnida/packer-actions-demo>
+[github-actions]:       <https://github.com/features/actions>
+[packer-doc]:           <https://www.packer.io/docs/index.html>
