@@ -1,4 +1,4 @@
-# Packer Validate Action
+# Packer Inspect Action
 
 Runs `packer inspect *.json` on pull request to inspect the template file in a directory
 This depends on the packer validate action, if the validation fails, it will print out error as pull request comment.
