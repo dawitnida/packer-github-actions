@@ -28,7 +28,8 @@ if [ $VALIDATE_SUCCESS -ne 0 ]; then
 $VALIDATE_OUTPUT
 \`\`\`
 - Workflow: ${GITHUB_WORKFLOW}
-- Action: ${GITHUB_ACTION}"
+- Action: ${GITHUB_ACTION}
+- Reference: ${GITHUB_REF}"
 
 else
     VALIDATE_COMMENT="#### \`packer validate\` Success
@@ -37,7 +38,9 @@ $VALIDATE_OUTPUT
 \`\`\`
 
 - Workflow: ${GITHUB_WORKFLOW}
-- Action: ${GITHUB_ACTION}"
+- Action: ${GITHUB_ACTION}
+- Reference: ${GITHUB_REF}"
+
 fi
 
 # Enable/disable comment on validate action on the PR
