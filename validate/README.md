@@ -73,5 +73,14 @@ action "packer-validate-demo-3" {
   }
 }
 ```
+**Figure 1.** *Packer validate without args failed with a comment*
+![failed-validation](../media/packer-template-y.png)
+
+**Figure 2.** *Packer validate success & failed outputs*
+![success-failed-output](../media/fail-success-validation.png)
+
+**Figure 3.** *Packer validate complete check list diagram*
+![checks-list-diagram](../media/action-results.png)
+
 
 [packer-validate-doc]:  <https://www.packer.io/docs/commands/validate.html>

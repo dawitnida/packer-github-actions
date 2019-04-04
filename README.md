@@ -85,6 +85,8 @@ action "packer-validate-demo-3" {
   }
 }
 ```
+**Figure 1.** *Packer validate complete check list diagram*
+![checks-list-diagram](media/action-results.png)
 
 ## Author
 [Dawit Nida](https://github.com/dawitnida)
