@@ -11,10 +11,31 @@ Check out the [official Packer documentation][packer-doc] for further reference.
     - [ ] Getting started & usage
     - [ ] Actions details
 - Action for 
-    - [ ] Validate Action
+    - [x] Validate Action
     - [ ] Inspect Action
     - [ ] Build Action
+    - [ ] Directory set for all actions
 
+## Getting started and usage
+
+```
+workflow "Packer" {
+  resolves = "packer-validate"
+  on = "pull_request"
+}
+
+action "filter-open-synced-pr" {
+  uses = "actions/bin/filter@master"
+  args = "action 'opened|synchronize'"
+}
+
+action "packer-validate" {
+  uses = "dawitnida/packer-github-actions/validate@master"
+  needs = "filter-open-synced-pr"
+  secrets = ["GITHUB_TOKEN"]
+  args = "*.json"
+}
+```
 
 ## Author
 [Dawit Nida](https://github.com/dawitnida)
