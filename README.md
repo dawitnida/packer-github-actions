@@ -20,7 +20,6 @@ Check out the [official Packer documentation][packer-doc] for further reference.
 - Improvements
     - [ ] Multiple template validation
     - [ ] Documentation with more screen shots & configuration instructions
-    - [ ] Licensing
     - [ ] Blog post
 
 
