@@ -49,9 +49,11 @@ if [[ "$ACTION_COMMENT" == "1" ]] || [[ "$ACTION_COMMENT" == "false" ]]; then
     exit $VALIDATE_SUCCESS
 fi
 
-# Spit out the validation output for reference as PR comment
-VALIDATE_PAYLOAD=$(echo '{}' | jq --arg body "$VALIDATE_COMMENT" '.body = $body')
-VALIDATE_COMMENTS_URL=$(cat /github/workflow/event.json | jq -r .pull_request.comments_url)
-/usr/bin/curl -s -S -H "Authorization: token $GITHUB_TOKEN" --header "Content-Type: application/json" --data "$VALIDATE_PAYLOAD" "$VALIDATE_COMMENTS_URL" > /dev/null
+if [[ -e "$GITHUB_TOKEN" ]]; then
+  # Spit out the validation output for reference as PR comment
+  VALIDATE_PAYLOAD=$(echo '{}' | jq --arg body "$VALIDATE_COMMENT" '.body = $body')
+  VALIDATE_COMMENTS_URL=$(cat /github/workflow/event.json | jq -r .pull_request.comments_url)
+  /usr/bin/curl -s -S -H "Authorization: token $GITHUB_TOKEN" --header "Content-Type: application/json" --data "$VALIDATE_PAYLOAD" "$VALIDATE_COMMENTS_URL" > /dev/null
+fi
 
 exit $VALIDATE_SUCCESS
