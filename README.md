@@ -35,6 +35,22 @@ Variables
 - `ACTION_COMMENT` : Enable/Disable PR comment from validate result
 
 ```
+name: Validate packer template file in a directory
+
+on:
+  pull_request:
+jobs:
+  packer_validate:
+    runs-on: hashicorp/packer:1.5.4
+    steps:
+      - name: Packer validate template-y without argument
+        uses: dawitnida/packer-github-actions/validate@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TEMPLATE_FILE_NAME: ${{ env.TEMPLATE_FILE_NAME }}
+```
+
+```
 workflow "packer build template-y" {
   resolves = "packer-build-template-y"
   on = "release"

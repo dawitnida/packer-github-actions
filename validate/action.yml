@@ -1,0 +1,9 @@
+name: 'packer-validate'
+author: 'Dawit Nida <dawit@dawitnida.com>'
+description: 'Validate packer template file in a directory'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+branding:
+  icon: 'alert-circle'
+  color: 'blue'

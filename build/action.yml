@@ -1,0 +1,9 @@
+name: 'packer-build'
+author: 'Dawit Nida <dawit@dawitnida.com>'
+description: 'Build packer template file in a directory'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+branding:
+  icon: 'circle'
+  color: 'blue'
