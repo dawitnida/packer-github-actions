@@ -41,7 +41,7 @@ on:
   pull_request:
 jobs:
   packer_validate:
-    runs-on: hashicorp/packer:1.5.4
+    runs-on: hashicorp/packer:1.6.4
     steps:
       - name: Packer validate template-y without argument
         uses: dawitnida/packer-github-actions/validate@master
